@@ -1,0 +1,21 @@
+{{template "base" .}}
+
+{{define "content"}}
+<article class="post-detail">
+    {{if .Post}}
+    <h1>{{.Post.Title}}</h1>
+    <div class="post-meta">
+        <span>{{.Post.CreatedAt.Format "2006-01-02 15:04"}}</span>
+        <span>作者: {{.Post.Author}}</span>
+    </div>
+    <div class="post-content">
+        {{.Post.Content | safe}}
+    </div>
+    <div class="post-actions">
+        <a href="/" class="btn">返回首页</a>
+    </div>
+    {{else}}
+    <p>文章不存在</p>
+    {{end}}
+</article>
+{{end}}

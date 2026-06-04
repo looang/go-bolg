@@ -1,0 +1,37 @@
+{{template "base" .}}
+
+{{define "content"}}
+<section class="post-form">
+    <h1>{{if .Post}}编辑文章{{else}}新建文章{{end}}</h1>
+
+    <form method="POST" action="{{if .Post}}/admin/posts/{{.Post.ID}}/edit{{else}}/admin/posts/new{{end}}">
+        <div class="form-group">
+            <label for="title">标题</label>
+            <input type="text" id="title" name="title" value="{{if .Post}}{{.Post.Title}}{{end}}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="summary">摘要</label>
+            <textarea id="summary" name="summary" rows="3">{{if .Post}}{{.Post.Summary}}{{end}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="content">内容 (支持Markdown)</label>
+            <textarea id="content" name="content" rows="20" required>{{if .Post}}{{.Post.Content}}{{end}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="status">状态</label>
+            <select id="status" name="status">
+                <option value="draft" {{if and .Post (eq .Post.Status "draft")}}selected{{end}}>草稿</option>
+                <option value="published" {{if and .Post (eq .Post.Status "published")}}selected{{end}}>发布</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{if .Post}}更新{{else}}创建{{end}}</button>
+            <a href="/admin" class="btn">取消</a>
+        </div>
+    </form>
+</section>
+{{end}}

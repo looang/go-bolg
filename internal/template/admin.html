@@ -1,0 +1,59 @@
+{{template "base" .}}
+
+{{define "content"}}
+<section class="admin">
+    <div class="admin-header">
+        <h1>后台管理</h1>
+        <a href="/admin/posts/new" class="btn">新建文章</a>
+    </div>
+
+    <div class="admin-actions">
+        <a href="/admin/logout" class="btn btn-secondary">退出登录</a>
+    </div>
+
+    <div class="posts-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Posts}}
+                <tr>
+                    <td>{{.Title}}</td>
+                    <td>
+                        {{if eq .Status "published"}}
+                        <span class="status published">已发布</span>
+                        {{else}}
+                        <span class="status draft">草稿</span>
+                        {{end}}
+                    </td>
+                    <td>{{.CreatedAt.Format "2006-01-02 15:04"}}</td>
+                    <td>
+                        <a href="/admin/posts/{{.ID}}/edit" class="btn-small">编辑</a>
+                        <button class="btn-small btn-danger" onclick="deletePost({{.ID}})">删除</button>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="4" class="no-data">暂无文章</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script>
+function deletePost(id) {
+    if (confirm('确定要删除这篇文章吗？')) {
+        fetch(`/api/posts/${id}`, { method: 'DELETE' })
+            .then(() => window.location.reload());
+    }
+}
+</script>
+{{end}}

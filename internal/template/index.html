@@ -1,0 +1,26 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="hero">
+    <h1>欢迎来到 Go Blog</h1>
+    <p>一个用Go语言构建的简洁博客系统</p>
+</div>
+
+<section class="posts">
+    <h2>最新文章</h2>
+    {{if .Posts}}
+    <div class="post-list">
+        {{range .Posts}}
+        <article class="post-card">
+            <h3><a href="/post/{{.ID}}">{{.Title}}</a></h3>
+            <p class="post-meta">{{.CreatedAt.Format "2006-01-02"}} | {{.Author}}</p>
+            <p class="post-summary">{{.Summary}}</p>
+            <a href="/post/{{.ID}}" class="read-more">阅读更多</a>
+        </article>
+        {{end}}
+    </div>
+    {{else}}
+    <p class="no-posts">暂无文章</p>
+    {{end}}
+</section>
+{{end}}
