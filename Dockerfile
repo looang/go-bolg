@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/library/golang:1.21-alpine AS builder
+FROM docker.1ms.run/library/golang:1.21-alpine AS builder
 
 RUN apk add --no-cache gcc musl-dev
 
@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 RUN go build -o go-blog cmd/main.go
 
-FROM registry.cn-hangzhou.aliyuncs.com/library/alpine:3.19
+FROM docker.1ms.run/library/alpine:3.19
 
 RUN apk --no-cache add ca-certificates tzdata
 
