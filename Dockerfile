@@ -1,6 +1,9 @@
-FROM golang:1.21-alpine AS builder
+FROM registry.cn-hangzhou.aliyuncs.com/library/golang:1.21-alpine AS builder
 
 RUN apk add --no-cache gcc musl-dev
+
+# 配置 Go 模块代理
+ENV GOPROXY=https://goproxy.cn,direct
 
 WORKDIR /app
 
@@ -10,7 +13,7 @@ RUN go mod download
 COPY . .
 RUN go build -o go-blog cmd/main.go
 
-FROM alpine:3.19
+FROM registry.cn-hangzhou.aliyuncs.com/library/alpine:3.19
 
 RUN apk --no-cache add ca-certificates tzdata
 
